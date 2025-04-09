@@ -6,12 +6,6 @@ class ExpenseItem extends StatelessWidget {
   final Expense expense;
   @override
   Widget build(BuildContext context) {
-    const categoryIcons = {
-      Category.food: Icons.lunch_dining,
-      Category.travel: Icons.flight_takeoff,
-      Category.leisure: Icons.movie,
-      Category.work: Icons.work
-    };
     return Card(
       child: Padding(
         padding: const EdgeInsets.symmetric(
@@ -31,7 +25,7 @@ class ExpenseItem extends StatelessWidget {
                   children: [
                     Icon(categoryIcons[expense.category]),
                     const SizedBox(width: 8),
-                    Text(expense.date.toString())
+                    Text(expense.formattedDate)
                   ],
                 ),
               ],

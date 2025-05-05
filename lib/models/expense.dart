@@ -10,6 +10,7 @@ const categoryIcons = {
   Category.work: Icons.work
 };
 final formatter = DateFormat.yMd();
+
 enum Category { food, travel, leisure, work }
 
 class Expense {
@@ -25,8 +26,32 @@ class Expense {
   final double amount;
   final DateTime date;
   final Category category;
-   String get formattedDate{
+  String get formattedDate {
     return formatter.format(date);
   }
 }
- 
+
+class ExpenseBucket {
+  const ExpenseBucket({
+    required this.category,
+    required this.expenses,
+  });
+
+  final Category category;
+  final List<Expense> expenses;
+
+  double get totalExpenses {
+    double sum = 0;
+
+    for (final expense in expenses) {
+      sum += expense.amount;
+    }
+
+    return sum;
+  }
+
+  ExpenseBucket.forCategory(List<Expense> allExpenses, this.category)
+      : expenses = allExpenses
+            .where((expense) => expense.category == category)
+            .toList();
+}

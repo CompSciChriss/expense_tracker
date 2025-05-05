@@ -37,18 +37,15 @@ class _ExpensesState extends State<Expenses> {
     });
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        duration: Duration(seconds: 3),
-        content: Text('Expense Removed'),
-        action: SnackBarAction(
-          label: 'Undo',
-          onPressed: () {
-            setState( () {
-                _registeredExpenses.insert(expenseIndex, expense);
-              },
-            );
-          },
-        ),
-      ),
+          duration: Duration(seconds: 3),
+          content: Text('Expense Removed'),
+          action: SnackBarAction(
+              label: 'Undo',
+              onPressed: () {
+                setState(() {
+                  _registeredExpenses.insert(expenseIndex, expense);
+                });
+              })),
     );
   }
 

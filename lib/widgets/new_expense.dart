@@ -1,6 +1,7 @@
+import 'dart:io';
 import 'package:expense_tracker/models/expense.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class NewExpense extends StatefulWidget {
   const NewExpense({super.key, required this.onAddExpense});
@@ -8,7 +9,6 @@ class NewExpense extends StatefulWidget {
   final void Function(Expense expense) onAddExpense;
   @override
   State<NewExpense> createState() {
-    // TODO: implement createState
     return _NewExpenseState();
   }
 }
@@ -33,7 +33,25 @@ class _NewExpenseState extends State<NewExpense> {
     if (_titleController.text.trim().isEmpty ||
         isInvalidAmount ||
         _selectedDate == null) {
-      showDialog(
+      if(Platform.isIOS){
+      showCupertinoDialog(
+          context: context,
+          builder: (ctx) => CupertinoAlertDialog(
+                title: const Text('Invalid Input!'),
+                content: const Text(
+                    'Please make sure valid title, amount, date were entered!'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(ctx);
+                    },
+                    child: const Text('Okay'),
+                  ),
+                ],
+              ),);
+      }
+      else{
+        showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
                 title: const Text('Invalid Input!'),
@@ -47,7 +65,8 @@ class _NewExpenseState extends State<NewExpense> {
                     child: const Text('Okay'),
                   ),
                 ],
-              ));
+              ),);
+      }
       return;
     }
     //Do the stuff to save the expense
@@ -171,8 +190,6 @@ class _NewExpenseState extends State<NewExpense> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          print(_titleController.text);
-                          print(_amountController.text);
                           _submitExpenseData();
                         },
                         child: const Text('Save Expense'),
@@ -246,8 +263,6 @@ class _NewExpenseState extends State<NewExpense> {
                           ),
                           ElevatedButton(
                             onPressed: () {
-                              print(_titleController.text);
-                              print(_amountController.text);
                               _submitExpenseData();
                             },
                             child: const Text('Save Expense'),
